@@ -1,0 +1,12 @@
+streamlit
+appwrite
+pandas
+numpy
+matplotlib
+seaborn
+pdfplumber
+bcrypt
+openpyxl
+PyPDF2
+scipy
+python-dotenv
