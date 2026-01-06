@@ -253,8 +253,9 @@ def show_main_app():
             "Top Students",
             "Division Analysis",
             "Pass/Fail Analysis",
-            "Excel Report",
-            "Student Search"
+            "Subject Analysis",
+            "Student Search",
+            "Excel Report"
         ]
 
     choice = st.sidebar.selectbox("Menu", menu)
@@ -296,4 +297,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
