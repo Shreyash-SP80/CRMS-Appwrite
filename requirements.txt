@@ -1,5 +1,6 @@
 streamlit
 appwrite
+python-dotenv
 pandas
 numpy
 matplotlib
@@ -9,4 +10,4 @@ bcrypt
 openpyxl
 PyPDF2
 scipy
-python-dotenv
+fpdf2
