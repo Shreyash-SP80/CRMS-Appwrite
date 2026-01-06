@@ -199,6 +199,27 @@ def normalize_student(student):
 
 
 
+# def save_results(data):
+#     try:
+#         for student in data:
+#             row = normalize_student(student)
+
+#             if not row["seat_no"]:
+#                 continue
+
+#             databases.create_document(
+#                 database_id=DB_ID,
+#                 collection_id=RESULTS_COLLECTION,
+#                 document_id="unique()",
+#                 data=row
+#             )
+#         return True
+
+#     except AppwriteException as e:
+#         print("Appwrite save error:", e)
+#         return False
+
+
 def save_results(data):
     try:
         for student in data:
@@ -207,17 +228,37 @@ def save_results(data):
             if not row["seat_no"]:
                 continue
 
+            # 🔍 CHECK IF RECORD ALREADY EXISTS
+            existing = databases.list_documents(
+                database_id=DB_ID,
+                collection_id=RESULTS_COLLECTION,
+                queries=[
+                    Query.equal("seat_no", row["seat_no"]),
+                    Query.equal("course", row["course"]),
+                    Query.equal("year", row["year"]),
+                    Query.equal("semester", row["semester"]),
+                    Query.equal("academic_year", row["academic_year"]),
+                ]
+            )
+
+            # ❌ Skip if already present
+            if existing["total"] > 0:
+                continue
+
+            # ✅ Insert only if NOT exists
             databases.create_document(
                 database_id=DB_ID,
                 collection_id=RESULTS_COLLECTION,
                 document_id="unique()",
                 data=row
             )
+
         return True
 
     except AppwriteException as e:
         print("Appwrite save error:", e)
         return False
+
 
 
 # def load_results():
@@ -404,5 +445,6 @@ def data_exists(course, year, semester, academic_year):
         ):
             return True
     return False
+
 
 
