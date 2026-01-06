@@ -291,22 +291,37 @@ from dotenv import load_dotenv
 
 
 from appwrite.client import Client
+import os
+from dotenv import load_dotenv
+from appwrite.client import Client
+from appwrite.services.account import Account
 from appwrite.services.databases import Databases
 from appwrite.query import Query
 from appwrite.exception import AppwriteException
-from appwrite.services.account import Account
 from appwrite.id import ID
 
+# Load .env ONLY for local development
 load_dotenv()
 
+# ------------------ ENV VARIABLES ------------------
+APPWRITE_ENDPOINT = os.getenv("APPWRITE_ENDPOINT")
+APPWRITE_PROJECT_ID = os.getenv("APPWRITE_PROJECT_ID")
+APPWRITE_API_KEY = os.getenv("APPWRITE_API_KEY")
+
+# ------------------ VALIDATION (IMPORTANT) ------------------
+if not APPWRITE_ENDPOINT or not APPWRITE_PROJECT_ID or not APPWRITE_API_KEY:
+    raise RuntimeError(
+        "Missing Appwrite environment variables. "
+        "Check Streamlit Secrets or .env file."
+    )
 
 # ------------------ CLIENT ------------------
 client = Client()
-account = Account(client)
-client.set_endpoint(os.getenv("APPWRITE_ENDPOINT"))
-client.set_project(os.getenv("APPWRITE_PROJECT_ID"))
-client.set_key(os.getenv("APPWRITE_API_KEY"))
+client.set_endpoint(APPWRITE_ENDPOINT)
+client.set_project(APPWRITE_PROJECT_ID)
+client.set_key(APPWRITE_API_KEY)
 
+account = Account(client)
 databases = Databases(client)
 
 # ------------------ CONFIG ------------------
@@ -314,6 +329,7 @@ DB_ID = "6956b49b002ccad37ae6"
 
 USERS_COLLECTION = "users"
 RESULTS_COLLECTION = "results"
+
 
 
 
@@ -657,3 +673,4 @@ def data_exists(course, year, semester, academic_year):
         ):
             return True
     return False
+
