@@ -97,28 +97,111 @@ def performance_dashboard(data):
 def show():
     st.header("📈 Performance Dashboard")
 
-    course = st.selectbox("Course", ["BCS", "BCA"])
-    year = st.selectbox("Year", ["1", "2", "3"])
-    semester = st.selectbox("Semester", ["SEM-1", "SEM-3", "SEM-5"])
-    academic_year = st.text_input("Academic Year (e.g. 2024-25)")
+    # ---------------------------
+    # SESSION FLAGS
+    # ---------------------------
+    if "show_dashboard" not in st.session_state:
+        st.session_state.show_dashboard = False
 
-    if not academic_year:
-        st.info("Please enter Academic Year to view dashboard")
-        return
+    if "filtered_dashboard_data" not in st.session_state:
+        st.session_state.filtered_dashboard_data = []
 
-    data = get_short_results()
+    # ---------------------------
+    # INPUTS (WITH KEYS)
+    # ---------------------------
+    course = st.selectbox(
+        "Course",
+        ["BCS", "BCA"],
+        key="dash_course"
+    )
 
-    # 🔥 FILTER DATA
-    filtered_data = [
-        d for d in data
-        if d["course"] == course
-        and d["year"] == year
-        and d["semester"] == semester
-        and d["academic_year"] == academic_year
-    ]
+    year = st.selectbox(
+        "Year",
+        ["1", "2", "3"],
+        key="dash_year"
+    )
 
-    if not filtered_data:
-        st.warning("No records found for selected filters.")
-        return
+    semester = st.selectbox(
+        "Semester",
+        ["SEM-1", "SEM-3", "SEM-5"],
+        key="dash_semester"
+    )
 
-    performance_dashboard(filtered_data)
+    academic_year = st.text_input(
+        "Academic Year (e.g. 2024-25)",
+        key="dash_academic_year"
+    )
+
+    # ---------------------------
+    # BUTTONS
+    # ---------------------------
+    col1, col2 = st.columns(2)
+
+    with col1:
+        continue_clicked = st.button("➡️ Continue")
+
+    with col2:
+        clear_clicked = st.button("🧹 Clear")
+
+    # ---------------------------
+    # 🧹 CLEAR LOGIC
+    # ---------------------------
+    if clear_clicked:
+        keys_to_clear = [
+            "dash_course",
+            "dash_year",
+            "dash_semester",
+            "dash_academic_year",
+            "filtered_dashboard_data",
+            "show_dashboard"
+        ]
+
+        for key in keys_to_clear:
+            if key in st.session_state:
+                del st.session_state[key]
+
+        st.rerun()
+
+    # ---------------------------
+    # ➡️ CONTINUE LOGIC
+    # ---------------------------
+    if continue_clicked:
+        if not academic_year:
+            st.warning("Please enter Academic Year")
+            st.session_state.show_dashboard = False
+        else:
+            data = get_short_results()
+
+            filtered_data = [
+                d for d in data
+                if d.get("course") == course
+                and str(d.get("year")) == str(year)
+                and d.get("semester") == semester
+                and d.get("academic_year") == academic_year
+            ]
+
+            if not filtered_data:
+                st.warning("No records found for selected filters.")
+                st.session_state.show_dashboard = False
+            else:
+                st.session_state.filtered_dashboard_data = filtered_data
+                st.session_state.show_dashboard = True
+
+    # ---------------------------
+    # 📊 DISPLAY SUMMARY + DASHBOARD
+    # ---------------------------
+    if st.session_state.show_dashboard:
+        st.divider()
+
+        st.subheader("📌 Selected Result Details")
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Course", course)
+        c2.metric("Year", year)
+        c3.metric("Semester", semester)
+        c4.metric("Academic Year", academic_year)
+
+        st.divider()
+
+        performance_dashboard(
+            st.session_state.filtered_dashboard_data
+        )
