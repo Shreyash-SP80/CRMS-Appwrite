@@ -550,37 +550,107 @@ def subject_analysis(detailed_data):
 def show():
     st.header("📚 Subject-wise Analysis")
 
-    # 🔽 REQUIRED FILTERS
-    course = st.selectbox("Course", ["BCS", "BCA"])
-    year = st.selectbox("Year", ["1", "2", "3"])
-    semester = st.selectbox("Semester", ["SEM-1", "SEM-3", "SEM-5"])
-    academic_year = st.text_input("Academic Year (e.g. 2025-26)")
+    # -----------------------------
+    # SESSION STATE DEFAULTS
+    # -----------------------------
+    if "subject_show" not in st.session_state:
+        st.session_state.subject_show = False
 
-    if not academic_year:
-        st.info("Please enter Academic Year to continue")
-        return
+    if "subject_filtered_data" not in st.session_state:
+        st.session_state.subject_filtered_data = []
 
-    raw_data = get_detailed_results()
+    # -----------------------------
+    # INPUTS (WITH KEYS)
+    # -----------------------------
+    course = st.selectbox(
+        "Course", ["BCS", "BCA"], key="sub_course"
+    )
+    year = st.selectbox(
+        "Year", ["1", "2", "3"], key="sub_year"
+    )
+    semester = st.selectbox(
+        "Semester", ["SEM-1", "SEM-3", "SEM-5"], key="sub_sem"
+    )
+    academic_year = st.text_input(
+        "Academic Year (e.g. 2025-26)", key="sub_ay"
+    )
 
-    if not raw_data:
-        st.warning("No detailed data available.")
-        return
+    # -----------------------------
+    # BUTTONS
+    # -----------------------------
+    col1, col2 = st.columns(2)
 
-    # ✅ FIX: normalize EACH student
-    normalized = [normalize_data(s) for s in raw_data]
+    with col1:
+        continue_clicked = st.button("➡️ Continue")
 
-    # 🔥 FILTER FIRST
-    filtered_data = [
-        d for d in normalized
-        if d["course"] == course
-        and d["year"] == year
-        and d["semester"] == semester
-        and d["academic_year"] == academic_year
-    ]
+    with col2:
+        clear_clicked = st.button("🧹 Clear")
 
-    if not filtered_data:
-        st.warning("No records found for selected filters.")
-        return
+    # -----------------------------
+    # 🧹 CLEAR LOGIC
+    # -----------------------------
+    if clear_clicked:
+        for key in [
+            "sub_course",
+            "sub_year",
+            "sub_sem",
+            "sub_ay",
+            "subject_show",
+            "subject_filtered_data"
+        ]:
+            if key in st.session_state:
+                del st.session_state[key]
 
-    # 🔥 NOW ANALYZE SUBJECTS
-    subject_analysis(filtered_data)
+        st.rerun()
+
+    # -----------------------------
+    # ➡️ CONTINUE LOGIC
+    # -----------------------------
+    if continue_clicked:
+        if not academic_year:
+            st.warning("Please enter Academic Year")
+            st.session_state.subject_show = False
+            return
+
+        raw_data = get_detailed_results()
+
+        if not raw_data:
+            st.warning("No detailed data available.")
+            st.session_state.subject_show = False
+            return
+
+        # 🔥 FILTER DIRECTLY (UNCHANGED LOGIC)
+        filtered_data = [
+            d for d in raw_data
+            if d["course"] == course
+            and str(d["year"]) == str(year)
+            and d["semester"] == semester
+            and d["academic_year"] == academic_year
+        ]
+
+        if not filtered_data:
+            st.warning("No records found for selected filters.")
+            st.session_state.subject_show = False
+            return
+
+        st.session_state.subject_filtered_data = filtered_data
+        st.session_state.subject_show = True
+
+    # -----------------------------
+    # 📌 DISPLAY SUMMARY + ANALYSIS
+    # -----------------------------
+    if st.session_state.subject_show:
+        st.divider()
+
+        st.subheader("📌 Selected Result Details")
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Course", course)
+        c2.metric("Year", year)
+        c3.metric("Semester", semester)
+        c4.metric("Academic Year", academic_year)
+
+        st.divider()
+
+        subject_analysis(st.session_state.subject_filtered_data)
+
+
