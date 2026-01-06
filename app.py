@@ -251,6 +251,9 @@ def show_main_app():
             "Home",
             "Dashboard",
             "Top Students",
+            "Division Analysis",
+            "Pass/Fail Analysis",
+            "Excel Report",
             "Student Search"
         ]
 
@@ -293,3 +296,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
