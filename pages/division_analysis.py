@@ -1,110 +1,6 @@
 
 
-# import streamlit as st
-# import pandas as pd
-# import matplotlib.pyplot as plt
-# from fpdf import FPDF
-# from io import BytesIO
 
-# # ✅ Centralized Appwrite loaders
-# from backend.appwrite_db import get_short_results
-
-
-# # -------------------------------------------------
-# # Convert Appwrite data → Clean DataFrame
-# # -------------------------------------------------
-# def get_division_dataframe():
-#     data = get_short_results()
-
-#     if not data:
-#         return pd.DataFrame()
-
-#     df = pd.DataFrame(data)
-
-#     # Safe numeric conversion
-#     df["Percentage"] = pd.to_numeric(df["Percentage"], errors="coerce")
-
-#     # Drop invalid rows
-#     df = df.dropna(subset=["Percentage"])
-
-#     return df
-
-
-# # -------------------------------------------------
-# # PDF Generator
-# # -------------------------------------------------
-# def create_division_pdf(df, div_name, min_pct, max_pct):
-#     pdf = FPDF()
-#     pdf.add_page()
-
-#     pdf.set_font("Arial", "B", 16)
-#     pdf.cell(0, 10, f"Sangola College - Division {div_name}", ln=True, align="C")
-
-#     pdf.set_font("Arial", "", 12)
-#     pdf.cell(
-#         0, 10,
-#         f"Students with percentage between {min_pct}% and {max_pct}%",
-#         ln=True, align="C"
-#     )
-
-#     pdf.ln(8)
-
-#     # Table Header
-#     pdf.set_font("Arial", "B", 10)
-#     pdf.cell(10, 8, "No", 1)
-#     pdf.cell(25, 8, "Seat No", 1)
-#     pdf.cell(80, 8, "Name", 1)
-#     pdf.cell(25, 8, "Percentage", 1)
-#     pdf.cell(30, 8, "Status", 1, ln=True)
-
-#     pdf.set_font("Arial", "", 10)
-
-#     for idx, row in enumerate(df.itertuples(index=False), 1):
-#         pdf.cell(10, 8, str(idx), 1)
-#         pdf.cell(25, 8, str(row._0), 1)   # Seat No
-#         pdf.cell(80, 8, row.Name[:35], 1)
-#         pdf.cell(25, 8, f"{row.Percentage:.2f}", 1)
-#         pdf.cell(30, 8, row.Status, 1, ln=True)
-
-#     buffer = BytesIO()
-#     buffer.write(pdf.output(dest="S").encode("latin1"))
-#     buffer.seek(0)
-
-#     return buffer
-
-
-# # -------------------------------------------------
-# # Division Analysis Page
-# # -------------------------------------------------
-# def division_analysis():
-#     st.header("📊 Custom Division Analysis")
-
-#     df = get_division_dataframe()
-
-#     if df.empty:
-#         st.warning("No valid data available.")
-#         return
-
-#     # ---- Overall Stats ----
-#     max_percentage = df["Percentage"].max()
-#     failed_count = df[df["Status"].isin(["ATKT", "Fail"])].shape[0]
-
-#     col1, col2, col3 = st.columns(3)
-#     col1.metric("Total Students", len(df))
-#     col2.metric("Highest Percentage", f"{max_percentage:.2f}%")
-#     col3.metric("Failed Students", failed_count)
-
-#     st.subheader("Set Analysis Criteria")
-
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         min_pct = st.number_input(
-#             "Minimum Percentage",
-#             min_value=0.0,
-#             max_value=100.0,
-#             value=60.0,
-#             step=0.5
-#         )
 #     with col2:
 #         max_pct = st.number_input(
 #             "Maximum Percentage",
@@ -560,3 +456,4 @@ def show():
         )
 
         division_analysis(df)
+
