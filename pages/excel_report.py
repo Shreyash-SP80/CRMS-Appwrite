@@ -1,16 +1,3 @@
-
-
-
-# # -------------------------------------------------
-# # Streamlit entry
-# # -------------------------------------------------
-# def show():
-#     st.header("📝 Generate Detailed Excel Report")
-#     st.info("This will create a comprehensive Excel sheet with all student marks.")
-
-#     if st.button("Generate Excel"):
-#         create_excel_sheet()
-
 import streamlit as st
 from openpyxl import Workbook
 from openpyxl.styles import Font
@@ -360,5 +347,6 @@ def show():
 
         if st.button("📥 Generate Excel"):
             create_excel_sheet(st.session_state.excel_filtered)
+
 
 
