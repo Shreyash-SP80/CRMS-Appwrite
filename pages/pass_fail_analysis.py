@@ -1,78 +1,4 @@
 
-#         ax.pie(
-#             sizes,
-#             labels=labels,
-#             autopct='%1.1f%%',
-#             startangle=90,
-#             colors=colors,
-#             wedgeprops={'linewidth': 1, 'edgecolor': 'white'},
-#             textprops={'fontsize': 10}
-#         )
-#         ax.set_title('Pass/Fail Distribution', pad=20)
-#         ax.axis('equal')
-#         st.pyplot(fig)
-        
-#         fig2, ax2 = plt.subplots(figsize=(6, 4))
-#         ax2.bar(
-#             ['Passed', 'Failed'],
-#             [len(passed), len(failed)],
-#             color=['#4CAF50', '#F44336']
-#         )
-#         ax2.set_ylabel('Number of Students')
-#         ax2.set_title('Pass/Fail Comparison')
-#         for i, v in enumerate([len(passed), len(failed)]):
-#             ax2.text(i, v + 0.5, str(v), ha='center')
-#         st.pyplot(fig2)
-
-
-# def show():
-#     data = load_data("Shoert_data")
-#     find_pass_fail(data)
-
-# import streamlit as st
-# import pandas as pd
-# import matplotlib.pyplot as plt
-
-# # ✅ Appwrite backend import
-# from backend.appwrite_db import load_results
-# from backend.appwrite_db import get_short_results, get_detailed_results
-
-
-
-# -------------------------------------------------
-# Load & Clean Data
-# -------------------------------------------------
-# def load_data():
-#     appwrite_data = load_results()
-
-#     if not appwrite_data:
-#         return pd.DataFrame()
-
-#     # Map Appwrite fields → UI fields
-#     df = pd.DataFrame([
-#         {
-#             "Seat No": r.get("seat_no", ""),
-#             "Name": r.get("name", ""),
-#             "Percentage": r.get("percentage", ""),
-#             "Status": r.get("status", "")
-#         }
-#         for r in appwrite_data
-#     ])
-
-#     # Normalize status values
-#     df["Status"] = df["Status"].fillna("").str.strip()
-
-#     return df
-
-
-# import streamlit as st
-# import pandas as pd
-# import matplotlib.pyplot as plt
-
-# # ✅ Centralized Appwrite loader
-# from backend.appwrite_db import get_short_results
-
-
 # # -------------------------------------------------
 # # Pass / Fail Analysis
 # # -------------------------------------------------
@@ -475,4 +401,5 @@ def find_pass_fail():
 # -------------------------------------------------
 def show():
     find_pass_fail()
+
 
