@@ -1,71 +1,4 @@
-# import streamlit as st
-# import pandas as pd
-# import matplotlib.pyplot as plt
 
-# # ✅ Appwrite backend import (MongoDB removed)
-# from backend.appwrite_db import load_results
-
-
-# def load_data(path):
-#     """Load data from Appwrite DB or session state"""
-
-#     # 🔄 Load from Appwrite
-#     appwrite_data = load_results()
-
-#     if appwrite_data:
-#         if path == "Shoert_data":
-#             short_data = []
-#             for record in appwrite_data:
-#                 short_data.append({
-#                     "Seat No": record.get('Seat No', ''), 
-#                     "Name": record.get('Name', ''), 
-#                     "Percentage": record.get('Percentage', ''), 
-#                     "Status": record.get('Status', '')
-#                 })
-#             return short_data
-
-#         return appwrite_data
-
-#     # Fallback to session state
-#     return st.session_state.stored_data.get(path, [])
-
-
-# def find_pass_fail(data):
-#     if not data:
-#         st.warning("No data available. Please upload and process a PDF first.")
-#         return
-    
-#     passed = [d for d in data if d["Status"] == "Pass"]
-#     failed = [d for d in data if d["Status"] in ["ATKT", "Fail"]]
-    
-#     st.subheader("Pass/Fail Analysis")
-#     col1, col2, col3 = st.columns(3)
-#     col1.metric("Total Students", len(data))
-#     col2.metric("Passed Students", len(passed), f"+{len(passed)}")
-#     col3.metric("Failed Students", len(failed), f"-{len(failed)}")
-    
-#     tab1, tab2 = st.tabs(["Data", "Visualization"])
-    
-#     with tab1:
-#         option = st.selectbox(
-#             "View details for:",
-#             ["All Students", "Passed Students", "Failed Students"],
-#             key="pass_fail_select"
-#         )
-        
-#         if option == "All Students":
-#             st.dataframe(pd.DataFrame(data))
-#         elif option == "Passed Students":
-#             st.dataframe(pd.DataFrame(passed))
-#         else:
-#             st.dataframe(pd.DataFrame(failed))
-    
-#     with tab2:
-#         fig, ax = plt.subplots(figsize=(6, 6))
-#         sizes = [len(passed), len(failed)]
-#         labels = ['Passed', 'Failed']
-#         colors = ['#4CAF50', '#F44336']
-        
 #         ax.pie(
 #             sizes,
 #             labels=labels,
@@ -542,3 +475,4 @@ def find_pass_fail():
 # -------------------------------------------------
 def show():
     find_pass_fail()
+
