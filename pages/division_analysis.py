@@ -60,10 +60,10 @@ def create_division_pdf(df, div_name, min_pct, max_pct):
         pdf.cell(30, 8, row.Status, 1, ln=True)
 
     buffer = BytesIO()
-    buffer.write(pdf.output(dest="S").encode("latin1"))
+    buffer.write(pdf.output(dest="S"))
     buffer.seek(0)
-
     return buffer
+
 
 
 # -------------------------------------------------
@@ -339,5 +339,6 @@ def show():
         )
 
         division_analysis(df)
+
 
 
