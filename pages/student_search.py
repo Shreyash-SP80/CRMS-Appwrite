@@ -1,34 +1,3 @@
-# import streamlit as st
-# import pandas as pd
-# import matplotlib.pyplot as plt
-# import numpy as np
-
-# # ✅ Appwrite backend import (MongoDB removed)
-# from backend.appwrite_db import load_results
-
-
-# def load_data(path):
-#     """Load data from Appwrite DB or session state"""
-
-#     # 🔄 Load from Appwrite
-#     appwrite_data = load_results()
-
-#     if appwrite_data:
-#         if path == "Shoert_data":
-#             short_data = []
-#             for record in appwrite_data:
-#                 short_data.append({
-#                     "Seat No": record.get('Seat No', ''), 
-#                     "Name": record.get('Name', ''), 
-#                     "Percentage": record.get('Percentage', ''), 
-#                     "Status": record.get('Status', '')
-#                 })
-#             return short_data
-
-#         return appwrite_data
-
-#     # Fallback to session state
-#     return st.session_state.stored_data.get(path, [])
 
 
 # def student_search(data, detailed_data):
@@ -604,3 +573,4 @@ def show():
 
         # 🔍 SEARCH INSIDE FILTERED DATA
         student_search(st.session_state.student_filtered)
+
