@@ -1,108 +1,4 @@
 
-
-
-#             ax.set_xticklabels(df["Subject"], rotation=45, ha="right")
-#             ax.bar_label(bars, fmt="%.2f")
-#             st.pyplot(fig)
-
-#         with tab2:
-#             fig, ax = plt.subplots(figsize=(8, 4))
-#             bars = ax.bar(df["Subject"], df["Pass Rate (%)"], color="#81C784")
-#             ax.set_ylabel("Pass Rate (%)")
-#             ax.set_ylim(0, 100)
-#             ax.set_title("Pass Rate per Subject")
-#             ax.set_xticklabels(df["Subject"], rotation=45, ha="right")
-#             ax.bar_label(bars, fmt="%.1f%%")
-#             st.pyplot(fig)
-
-
-# # -------------------------------------------------
-# # Streamlit entry
-# # -------------------------------------------------
-# def show():
-#     detailed_data = load_data()
-#     subject_analysis(detailed_data)
-
-# import streamlit as st
-# import pandas as pd
-# import matplotlib.pyplot as plt
-
-# # -------------------------------------------------
-# # Appwrite backend
-# # -------------------------------------------------
-# from backend.appwrite_db import get_detailed_results
-
-
-# # -------------------------------------------------
-# # Normalize Appwrite data (IMPORTANT)
-# # -------------------------------------------------
-# def normalize_data(raw_data):
-#     normalized = []
-
-#     for d in raw_data:
-#         normalized.append({
-#             "code": d.get("Code", []) or [],
-#             "total": d.get("Total", []) or [],
-#             "status1": d.get("Status1", []) or []
-#         })
-
-#     return normalized
-
-
-# # -------------------------------------------------
-# # Subject-wise Analysis
-# # -------------------------------------------------
-# def subject_analysis(detailed_data):
-#     st.header("📚 Subject-wise Analysis")
-
-#     if not detailed_data:
-#         st.warning("No detailed data available.")
-#         return
-
-#     subject_stats = {}
-
-#     for student in detailed_data:
-#         codes = student["code"]
-#         totals = student["total"]
-#         status_list = student["status1"]
-
-#         length = min(len(codes), len(totals), len(status_list))
-
-#         for i in range(length):
-#             code = str(codes[i]).strip()
-#             status = str(status_list[i]).strip()
-
-#             try:
-#                 mark = float(totals[i])
-#             except:
-#                 continue
-
-#             if not code:
-#                 continue
-
-#             if code not in subject_stats:
-#                 subject_stats[code] = {
-#                     "total_marks": 0,
-#                     "count": 0,
-#                     "pass_count": 0,
-#                     "fail_count": 0
-#                 }
-
-#             subject_stats[code]["total_marks"] += mark
-#             subject_stats[code]["count"] += 1
-
-#             if status == "P":
-#                 subject_stats[code]["pass_count"] += 1
-#             else:
-#                 subject_stats[code]["fail_count"] += 1
-
-#     if not subject_stats:
-#         st.warning("No valid subject data found.")
-#         return
-
-#     # -------------------------------------------------
-#     # Build DataFrame
-#     # -------------------------------------------------
 #     rows = []
 #     for code, stats in subject_stats.items():
 #         rows.append({
@@ -408,6 +304,7 @@ def show():
         st.divider()
 
         subject_analysis(st.session_state.subject_filtered_data)
+
 
 
 
