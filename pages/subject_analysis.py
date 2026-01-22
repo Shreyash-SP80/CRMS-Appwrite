@@ -1,32 +1,5 @@
 
-#     # Fallback to session state
-#     return st.session_state.stored_data.get(path, [])
 
-
-# def subject_analysis(detailed_data):
-#     st.header("📚 Subject-wise Analysis")
-    
-#     if not detailed_data:
-#         st.warning("No detailed data available. Please process a PDF first.")
-#         return
-    
-#     subject_stats = {}
-    
-#     for student in detailed_data:
-#         for i in range(len(student["Code"])):
-#             code = student["Code"][i]
-#             total = student["Total"][i]
-            
-#             if not isinstance(code, str) or not isinstance(total, str):
-#                 continue
-            
-#             if code not in subject_stats:
-#                 subject_stats[code] = {
-#                     "total_marks": 0,
-#                     "count": 0,
-#                     "pass_count": 0,
-#                     "fail_count": 0
-#                 }
             
 #             try:
 #                 if total.isdigit():
@@ -625,6 +598,7 @@ def show():
         st.divider()
 
         subject_analysis(st.session_state.subject_filtered_data)
+
 
 
 
