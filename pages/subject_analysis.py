@@ -1,61 +1,3 @@
-
-#     rows = []
-#     for code, stats in subject_stats.items():
-#         rows.append({
-#             "Subject": code,
-#             "Average Marks": round(stats["total_marks"] / stats["count"], 2),
-#             "Pass Rate (%)": round((stats["pass_count"] / stats["count"]) * 100, 2),
-#             "Students": stats["count"],
-#             "Passed": stats["pass_count"],
-#             "Failed": stats["fail_count"]
-#         })
-
-#     df = pd.DataFrame(rows).sort_values("Average Marks", ascending=False)
-
-#     # -------------------------------------------------
-#     # UI
-#     # -------------------------------------------------
-#     col1, col2 = st.columns([1.2, 2])
-
-#     with col1:
-#         st.subheader("📄 Subject Summary")
-#         st.dataframe(df.reset_index(drop=True), hide_index=True)
-
-#     with col2:
-#         st.subheader("📊 Visual Analysis")
-
-#         tab1, tab2 = st.tabs(["Average Marks", "Pass Rate"])
-
-#         with tab1:
-#             fig, ax = plt.subplots(figsize=(8, 4))
-#             bars = ax.bar(df["Subject"], df["Average Marks"], color="#64B5F6")
-#             ax.set_ylabel("Average Marks")
-#             ax.set_title("Average Marks per Subject")
-#             ax.set_xticklabels(df["Subject"], rotation=45, ha="right")
-#             ax.bar_label(bars, fmt="%.2f")
-#             st.pyplot(fig)
-
-#         with tab2:
-#             fig, ax = plt.subplots(figsize=(8, 4))
-#             bars = ax.bar(df["Subject"], df["Pass Rate (%)"], color="#81C784")
-#             ax.set_ylabel("Pass Rate (%)")
-#             ax.set_ylim(0, 100)
-#             ax.set_title("Pass Rate per Subject")
-#             ax.set_xticklabels(df["Subject"], rotation=45, ha="right")
-#             ax.bar_label(bars, fmt="%.1f%%")
-#             st.pyplot(fig)
-
-
-# # -------------------------------------------------
-# # Streamlit Entry
-# # -------------------------------------------------
-# def show():
-#     raw_data = get_detailed_results()      # ✅ correct source
-#     detailed_data = normalize_data(raw_data)
-#     subject_analysis(detailed_data)
-
-
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -304,6 +246,7 @@ def show():
         st.divider()
 
         subject_analysis(st.session_state.subject_filtered_data)
+
 
 
 
