@@ -1,49 +1,6 @@
 
 
-            
-#             try:
-#                 if total.isdigit():
-#                     mark = int(total)
-#                     subject_stats[code]["total_marks"] += mark
-#                     subject_stats[code]["count"] += 1
-                    
-#                     status = student["Status1"][i]
-#                     if status == "P":
-#                         subject_stats[code]["pass_count"] += 1
-#                     else:
-#                         subject_stats[code]["fail_count"] += 1
-#             except:
-#                 continue
-    
-#     analysis_data = []
-#     for code, stats in subject_stats.items():
-#         if stats["count"] > 0:
-#             avg_mark = stats["total_marks"] / stats["count"]
-#             pass_rate = (stats["pass_count"] / stats["count"]) * 100
-#             analysis_data.append({
-#                 "Subject": code,
-#                 "Avg. Marks": f"{avg_mark:.2f}",
-#                 "Pass Rate": f"{pass_rate:.2f}%",
-#                 "Students": stats["count"],
-#                 "Passed": stats["pass_count"],
-#                 "Failed": stats["fail_count"]
-#             })
-    
-#     if not analysis_data:
-#         st.warning("No valid subject data found")
-#         return
-    
-#     df = pd.DataFrame(analysis_data)
-    
-#     col1, col2 = st.columns([1, 2])
-    
-#     with col1:
-#         st.subheader("Subject Performance")
-#         st.dataframe(df)
-    
-#     with col2:
-#         st.subheader("Subject Analysis")
-        
+
 #         tab1, tab2 = st.tabs(["Average Marks", "Pass Rate"])
         
 #         with tab1:
@@ -598,6 +555,7 @@ def show():
         st.divider()
 
         subject_analysis(st.session_state.subject_filtered_data)
+
 
 
 
