@@ -1,33 +1,3 @@
-# import streamlit as st
-# import pandas as pd
-# import matplotlib.pyplot as plt
-# import numpy as np
-
-# # ✅ Appwrite backend import (MongoDB removed)
-# from backend.appwrite_db import load_results
-# from backend.appwrite_db import get_short_results, get_detailed_results
-
-
-# def find_top_ten(data):
-#     if not data:
-#         st.warning("No data available.")
-#         return
-
-#     # Convert to DataFrame
-#     df = pd.DataFrame(data)
-
-#     # Safe numeric conversion
-#     df['Percentage'] = pd.to_numeric(df['Percentage'], errors='coerce')
-
-#     # Remove invalid percentages
-#     df = df.dropna(subset=['Percentage'])
-
-#     if df.empty:
-#         st.warning("No valid percentage data found.")
-#         return
-
-#     # Sort all students by percentage
-#     df = df.sort_values(by='Percentage', ascending=False).reset_index(drop=True)
 
 #     # Assign rank (ALL students)
 #     df["Rank"] = df.index + 1
@@ -562,3 +532,4 @@ def show():
 #         st.divider()
 
 #         find_top_ten(st.session_state.filtered_top_data)
+
