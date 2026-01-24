@@ -1,50 +1,3 @@
-
-#     # Assign rank (ALL students)
-#     df["Rank"] = df.index + 1
-
-#     # ---------------------------
-#     # 🔍 CHECK MY RANK FEATURE
-#     # ---------------------------
-#     st.subheader("🔎 Check My Rank")
-
-#     seat_no_input = st.text_input("Enter your Seat No")
-
-#     if seat_no_input:
-#         student = df[df["Seat No"].astype(str) == seat_no_input.strip()]
-
-#         if student.empty:
-#             st.error("Seat No not found.")
-#         else:
-#             student = student.iloc[0]
-
-#             total_students = len(df)
-#             percentile = ((total_students - student["Rank"]) / total_students) * 100
-
-#             col1, col2, col3, col4 = st.columns(4)
-#             col1.metric("Seat No", student["Seat No"])
-#             # col2.metric("Name", student["Name"])          # ✅ NEW
-#             col2.metric("Rank", int(student["Rank"]))
-#             col3.metric("Percentage", f"{student['Percentage']:.2f}%")
-#             col4.metric("Percentile", f"{percentile:.2f}%")  # ✅ NEW
-#             st.markdown(
-#                 f"""
-#                 <div style="margin-top:10px;
-#                             padding:12px;
-#                             border-radius:8px;
-#                             background-color:#111827;
-#                             font-size:18px;">
-#                     <b>👤 Name:</b> {student["Name"]}
-#                 </div>
-#                 """,
-#                 unsafe_allow_html=True
-#             )
-
-#             if str(student["Status"]).lower() != "pass":
-#                 st.error("❌ You are FAILED")
-#             else:
-#                 st.success("✅ You are PASSED")
-#     st.markdown("---")
-
 #     # ---------------------------
 #     # 🏆 TOP STUDENTS FEATURE
 #     # ---------------------------
@@ -532,4 +485,5 @@ def show():
 #         st.divider()
 
 #         find_top_ten(st.session_state.filtered_top_data)
+
 
