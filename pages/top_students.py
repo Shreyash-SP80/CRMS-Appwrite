@@ -1,62 +1,3 @@
-#     # ---------------------------
-#     # 🏆 TOP STUDENTS FEATURE
-#     # ---------------------------
-#     st.subheader("🏆 Top Students")
-
-#     top_n = st.selectbox(
-#         "Select Top Students",
-#         options=[10, 20, 30, 40, "All"],
-#         index=0
-#     )
-
-#     if top_n != "All":
-#         top_students = df.head(int(top_n))
-#     else:
-#         top_students = df.copy()
-
-#     col1, col2 = st.columns(2)
-#     col1.metric("Total Students", len(df))
-#     col2.metric("Displayed Students", len(top_students))
-
-#     if top_students.empty:
-#         st.info("No students to display.")
-#         return
-
-#     tab1, tab2 = st.tabs(["📄 Data", "📊 Visualization"])
-
-#     # ---------------------------
-#     # TABLE VIEW
-#     # ---------------------------
-#     with tab1:
-#         st.dataframe(
-#             top_students[["Rank", "Seat No", "Name", "Percentage", "Status"]],
-#             hide_index=True
-#         )
-
-#     # ---------------------------
-#     # VISUALIZATION
-#     # ---------------------------
-#     with tab2:
-#         # Bar Chart
-#         fig, ax = plt.subplots(figsize=(8, 5))
-#         bars = ax.barh(
-#             top_students["Name"].str[:20],
-#             top_students["Percentage"],
-#             color=plt.cm.viridis(np.linspace(0, 1, len(top_students)))
-#         )
-#         ax.set_xlabel("Percentage (%)")
-#         ax.set_title("Top Students Performance")
-#         ax.bar_label(bars, fmt="%.2f%%", padding=3)
-#         ax.set_xlim(0, 100)
-#         ax.invert_yaxis()
-#         st.pyplot(fig)
-
-
-# def show():
-#     data = get_short_results()
-#     find_top_ten(data)
-
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -485,5 +426,6 @@ def show():
 #         st.divider()
 
 #         find_top_ten(st.session_state.filtered_top_data)
+
 
 
