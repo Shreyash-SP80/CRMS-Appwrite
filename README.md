@@ -1,1 +1,2 @@
 # CRMS-Appwrite
+Cloud Hosting
