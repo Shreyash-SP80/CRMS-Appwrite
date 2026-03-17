@@ -187,24 +187,69 @@ def load_results():
         return []
 
 
+# def get_short_results():
+#     documents = load_results()
+#     short_data = []
+
+#     for d in documents:
+#         short_data.append({
+#             "Seat No": str(d["seat_no"] if "seat_no" in d else ""),
+#             "Name": d["name"] if "name" in d else "",
+#             "Percentage": d["percentage"] if "percentage" in d else "",
+#             "Status": d["status"] if "status" in d else "",
+#             "course": d["course"] if "course" in d else "",
+#             "year": str(d["year"] if "year" in d else ""),
+#             "semester": d["semester"] if "semester" in d else "",
+#             "academic_year": d["academic_year"] if "academic_year" in d else ""
+#         })
+
+#     return short_data
+
 def get_short_results():
     documents = load_results()
     short_data = []
 
     for d in documents:
         short_data.append({
-            "Seat No": str(d["seat_no"] if "seat_no" in d else ""),
+            "Seat No": str(d["seat_no"]) if "seat_no" in d else "",
             "Name": d["name"] if "name" in d else "",
             "Percentage": d["percentage"] if "percentage" in d else "",
             "Status": d["status"] if "status" in d else "",
+
             "course": d["course"] if "course" in d else "",
-            "year": str(d["year"] if "year" in d else ""),
+            "year": str(d["year"]) if "year" in d else "",
             "semester": d["semester"] if "semester" in d else "",
             "academic_year": d["academic_year"] if "academic_year" in d else ""
         })
 
     return short_data
+    
 
+
+# def get_detailed_results():
+#     documents = load_results()
+#     detailed_data = []
+
+#     for d in documents:
+#         detailed_data.append({
+#             "seat_no": str(d.get("seat_no", "")),
+#             "name": d.get("name", ""),
+#             "prn_no": d.get("prn_no", ""),
+#             "status": d.get("status", ""),
+#             "percentage": d.get("percentage", ""),
+#             "code": d.get("code", []) or [],
+#             "ua": d.get("ua", []) or [],
+#             "ca": d.get("ca", []) or [],
+#             "total": d.get("total", []) or [],
+#             "status1": d.get("status1", []) or [],
+#             "course": d.get("course", ""),
+#             "year": str(d.get("year", "")),
+#             "semester": d.get("semester", ""),
+#             "exam_name": d.get("exam_name", ""),
+#             "academic_year": d.get("academic_year", "")
+#         })
+
+#     return detailed_data
 
 def get_detailed_results():
     documents = load_results()
@@ -212,25 +257,27 @@ def get_detailed_results():
 
     for d in documents:
         detailed_data.append({
-            "seat_no": str(d.get("seat_no", "")),
-            "name": d.get("name", ""),
-            "prn_no": d.get("prn_no", ""),
-            "status": d.get("status", ""),
-            "percentage": d.get("percentage", ""),
-            "code": d.get("code", []) or [],
-            "ua": d.get("ua", []) or [],
-            "ca": d.get("ca", []) or [],
-            "total": d.get("total", []) or [],
-            "status1": d.get("status1", []) or [],
-            "course": d.get("course", ""),
-            "year": str(d.get("year", "")),
-            "semester": d.get("semester", ""),
-            "exam_name": d.get("exam_name", ""),
-            "academic_year": d.get("academic_year", "")
+            "seat_no": str(d["seat_no"]) if "seat_no" in d else "",
+            "name": d["name"] if "name" in d else "",
+            "prn_no": d["prn_no"] if "prn_no" in d else "",
+            "status": d["status"] if "status" in d else "",
+            "percentage": d["percentage"] if "percentage" in d else "",
+
+            "code": d["code"] if "code" in d else [],
+            "ua": d["ua"] if "ua" in d else [],
+            "ca": d["ca"] if "ca" in d else [],
+            "total": d["total"] if "total" in d else [],
+            "status1": d["status1"] if "status1" in d else [],
+
+            "course": d["course"] if "course" in d else "",
+            "year": str(d["year"]) if "year" in d else "",
+            "semester": d["semester"] if "semester" in d else "",
+            "exam_name": d["exam_name"] if "exam_name" in d else "",
+            "academic_year": d["academic_year"] if "academic_year" in d else ""
         })
 
     return detailed_data
-
+    
 
 def delete_all_results():
     try:
