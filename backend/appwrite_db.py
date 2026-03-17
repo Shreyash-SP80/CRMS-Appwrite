@@ -193,14 +193,14 @@ def get_short_results():
 
     for d in documents:
         short_data.append({
-            "Seat No": str(d.get("seat_no", "")),
-            "Name": d.get("name", ""),
-            "Percentage": d.get("percentage", ""),
-            "Status": d.get("status", ""),
-            "course": d.get("course", ""),
-            "year": str(d.get("year", "")),
-            "semester": d.get("semester", ""),
-            "academic_year": d.get("academic_year", "")
+            "Seat No": str(d["seat_no"] if "seat_no" in d else ""),
+            "Name": d["name"] if "name" in d else "",
+            "Percentage": d["percentage"] if "percentage" in d else "",
+            "Status": d["status"] if "status" in d else "",
+            "course": d["course"] if "course" in d else "",
+            "year": str(d["year"] if "year" in d else ""),
+            "semester": d["semester"] if "semester" in d else "",
+            "academic_year": d["academic_year"] if "academic_year" in d else ""
         })
 
     return short_data
