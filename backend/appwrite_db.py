@@ -250,7 +250,7 @@ def delete_all_results():
                 databases.delete_document(
                     database_id=DB_ID,
                     collection_id=RESULTS_COLLECTION,
-                    document_id=doc.$id  # ✅ FIXED
+                    document_id=doc["$id"]
                 )
 
         return True
