@@ -4,6 +4,7 @@ import os
 import sys
 import traceback
 
+import backend.appwrite_db
 # from appwrite_users import register_user, authenticate_user
 from backend.appwrite_db import register_user, authenticate_user, send_email_otp, verify_email_otp
 # from backend.appwrite_db import register_user, authenticate_user, send_email_otp, verify_email_otp
