@@ -149,7 +149,6 @@ def register_user(username, password, role, email=None):
     except AppwriteException as e:
         return False, str(e)
 
-
 def authenticate_user(username, password):
     try:
         response = databases.list_documents(
@@ -158,7 +157,13 @@ def authenticate_user(username, password):
             queries=[Query.equal("username", username)]
         )
 
-        if response["total"] == 0:
+        print("DEBUG RESPONSE:", response)
+        print("TYPE:", type(response))
+
+        if not response or not isinstance(response, dict):
+            return False, None, "Invalid response from Appwrite"
+
+        if response.get("total", 0) == 0:
             return False, None, "Invalid username or password"
 
         user = response["documents"][0]
@@ -168,8 +173,30 @@ def authenticate_user(username, password):
 
         return False, None, "Invalid username or password"
 
-    except AppwriteException as e:
+    except Exception as e:
+        print("ERROR:", e)
         return False, None, str(e)
+        
+# def authenticate_user(username, password):
+#     try:
+#         response = databases.list_documents(
+#             database_id=DB_ID,
+#             collection_id=USERS_COLLECTION,
+#             queries=[Query.equal("username", username)]
+#         )
+
+#         if response["total"] == 0:
+#             return False, None, "Invalid username or password"
+
+#         user = response["documents"][0]
+
+#         if bcrypt.checkpw(password.encode(), user["password"].encode()):
+#             return True, user["role"], "Login successful"
+
+#         return False, None, "Invalid username or password"
+
+#     except AppwriteException as e:
+#         return False, None, str(e)
 
 # =====================================================
 # ================= RESULTS ===========================
