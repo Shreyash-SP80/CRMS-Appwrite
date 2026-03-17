@@ -105,8 +105,8 @@ def authenticate_user(username, password):
         user = response.documents[0]
 
         # ✅ FIXED HERE
-        if bcrypt.checkpw(password.encode(), user.get("password").encode()):
-            return True, user.get("role"), "Login successful"
+        if bcrypt.checkpw(password.encode(), user.password.encode()):
+            return True, user.role, "Login successful"
 
         return False, None, "Invalid username or password"
 
@@ -250,7 +250,7 @@ def delete_all_results():
                 databases.delete_document(
                     database_id=DB_ID,
                     collection_id=RESULTS_COLLECTION,
-                    document_id=doc.get("$id")   # ✅ FIXED
+                    document_id=doc.id  # ✅ FIXED
                 )
 
         return True
