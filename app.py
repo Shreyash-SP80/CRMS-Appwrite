@@ -6,6 +6,8 @@ import traceback
 
 # from appwrite_users import register_user, authenticate_user
 from backend.appwrite_db import register_user, authenticate_user, send_email_otp, verify_email_otp
+# from backend.appwrite_db import register_user, authenticate_user, send_email_otp, verify_email_otp
+
 
 from pages.dashboard import show as dashboard_page
 from pages.upload_pdf import show as upload_pdf_page
