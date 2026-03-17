@@ -32,7 +32,6 @@ databases = Databases(client)
 # ------------------ CONFIG ------------------
 DB_ID = "6956b49b002ccad37ae6"
 
-# ⚠️ Replace with actual collection IDs if needed
 USERS_COLLECTION = "users"
 RESULTS_COLLECTION = "results"
 
@@ -76,7 +75,7 @@ def register_user(username, password, role, email=None):
         databases.create_document(
             database_id=DB_ID,
             collection_id=USERS_COLLECTION,
-            document_id=ID.unique(),   # ✅ FIXED
+            document_id=ID.unique(),
             data={
                 "username": username,
                 "password": hashed_password,
@@ -100,14 +99,14 @@ def authenticate_user(username, password):
             queries=[Query.equal("username", username)]
         )
 
-        # ✅ FIXED
         if response.total == 0:
             return False, None, "Invalid username or password"
 
         user = response.documents[0]
 
-        if bcrypt.checkpw(password.encode(), user["password"].encode()):
-            return True, user["role"], "Login successful"
+        # ✅ FIXED HERE
+        if bcrypt.checkpw(password.encode(), user.get("password").encode()):
+            return True, user.get("role"), "Login successful"
 
         return False, None, "Invalid username or password"
 
@@ -150,7 +149,7 @@ def save_results(data):
             databases.create_document(
                 database_id=DB_ID,
                 collection_id=RESULTS_COLLECTION,
-                document_id=ID.unique(),   # ✅ FIXED
+                document_id=ID.unique(),
                 data=row
             )
         return True
@@ -173,7 +172,7 @@ def load_results():
                 queries=[Query.limit(limit), Query.offset(offset)]
             )
 
-            documents = response.documents   # ✅ FIXED
+            documents = response.documents
             all_documents.extend(documents)
 
             if len(documents) < limit:
@@ -242,7 +241,7 @@ def delete_all_results():
                 queries=[Query.limit(100)]
             )
 
-            documents = response.documents   # ✅ FIXED
+            documents = response.documents
 
             if not documents:
                 break
@@ -251,7 +250,7 @@ def delete_all_results():
                 databases.delete_document(
                     database_id=DB_ID,
                     collection_id=RESULTS_COLLECTION,
-                    document_id=doc["$id"]
+                    document_id=doc.get("$id")   # ✅ FIXED
                 )
 
         return True
