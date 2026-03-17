@@ -170,7 +170,8 @@ def show():
             st.warning("Please enter Academic Year")
             st.session_state.show_dashboard = False
         else:
-            data = get_short_results()
+            # data = get_short_results()
+            data = get_short_results(course, year, semester, academic_year)
 
             filtered_data = [
                 d for d in data
