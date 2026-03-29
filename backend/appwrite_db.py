@@ -186,6 +186,59 @@ def _get_docs_from_response(response):
     return response.documents, response.total
 
 
+def debug_appwrite_connection():
+    """Debug function to check Appwrite connection and data"""
+    try:
+        # Test 1: Check if we can connect
+        print("Testing Appwrite connection...")
+        
+        # Test 2: Try to list users (small collection)
+        try:
+            users_response = databases.list_documents(
+                database_id=DB_ID,
+                collection_id=USERS_COLLECTION,
+                queries=[Query.limit(1)]
+            )
+            users, users_total = _get_docs_from_response(users_response)
+            print(f"✅ Users collection accessible. Total users: {users_total}")
+        except Exception as e:
+            print(f"❌ Users collection error: {e}")
+        
+        # Test 3: Try to list results
+        try:
+            results_response = databases.list_documents(
+                database_id=DB_ID,
+                collection_id=RESULTS_COLLECTION,
+                queries=[Query.limit(1)]
+            )
+            results, results_total = _get_docs_from_response(results_response)
+            print(f"✅ Results collection accessible. Total results: {results_total}")
+            
+            # Show first document structure if exists
+            if results_total > 0:
+                first_doc = results[0]
+                print("Sample document structure:")
+                if isinstance(first_doc, dict):
+                    for key in first_doc.keys():
+                        if not key.startswith('$'):
+                            print(f"  - {key}: {type(first_doc[key])}")
+                else:
+                    for attr in dir(first_doc):
+                        if not attr.startswith('$') and not attr.startswith('_'):
+                            print(f"  - {attr}: {type(getattr(first_doc, attr))}")
+            else:
+                print("⚠️ No documents in results collection!")
+                
+        except Exception as e:
+            print(f"❌ Results collection error: {e}")
+            
+        return True
+        
+    except Exception as e:
+        print(f"Debug connection error: {e}")
+        return False
+        
+
 def load_results():
     """Load all results from Appwrite database with pagination"""
     try:
