@@ -187,8 +187,8 @@ def _get_docs_from_response(response):
 def load_results():
     try:
         all_documents = []
-        limit = 100
-        offset = 0
+        # limit = 100
+        # offset = 0
 
         while True:
             response = databases.list_documents(
@@ -199,9 +199,9 @@ def load_results():
             documents, total = _get_docs_from_response(response)
             all_documents.extend(documents)
 
-            if len(documents) < limit:
-                break
-            offset += limit
+            # if len(documents) < limit:
+            #     break
+            # offset += limit
 
         return all_documents
 
