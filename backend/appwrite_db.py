@@ -184,7 +184,6 @@ def _get_docs_from_response(response):
         return response.get("documents", []), response.get("total", 0)
     return response.documents, response.total
 
-
 def load_results():
     try:
         all_documents = []
@@ -197,21 +196,48 @@ def load_results():
                 collection_id=RESULTS_COLLECTION,
                 queries=[Query.limit(limit), Query.offset(offset)]
             )
-
-            # ✅ FIX: Use helper to handle both dict and object responses
-            documents, _ = _get_docs_from_response(response)
+            documents, total = _get_docs_from_response(response)
             all_documents.extend(documents)
 
             if len(documents) < limit:
                 break
-
             offset += limit
 
         return all_documents
 
     except AppwriteException as e:
-        print("Appwrite load error:", e)
+        # Show error in UI instead of silently returning []
+        import streamlit as st
+        st.error(f"Database error: {e.message} (Code: {e.code})")
         return []
+
+# def load_results():
+#     try:
+#         all_documents = []
+#         limit = 100
+#         offset = 0
+
+#         while True:
+#             response = databases.list_documents(
+#                 database_id=DB_ID,
+#                 collection_id=RESULTS_COLLECTION,
+#                 queries=[Query.limit(limit), Query.offset(offset)]
+#             )
+
+#             # ✅ FIX: Use helper to handle both dict and object responses
+#             documents, _ = _get_docs_from_response(response)
+#             all_documents.extend(documents)
+
+#             if len(documents) < limit:
+#                 break
+
+#             offset += limit
+
+#         return all_documents
+
+#     except AppwriteException as e:
+#         print("Appwrite load error:", e)
+#         return []
 
 
 def _doc_get(doc, key, default=""):
