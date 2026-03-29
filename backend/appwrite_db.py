@@ -185,33 +185,47 @@ def _get_docs_from_response(response):
         return response.get("documents", []), response.get("total", 0)
     return response.documents, response.total
 
+
 def load_results():
+    """Load all results from Appwrite database with pagination"""
     try:
         all_documents = []
-        # limit = 100
-        # offset = 0
-
+        limit = 100  # Maximum documents per request
+        offset = 0
+        
         while True:
             response = databases.list_documents(
                 database_id=DB_ID,
                 collection_id=RESULTS_COLLECTION,
                 queries=[Query.limit(limit), Query.offset(offset)]
             )
+            
             documents, total = _get_docs_from_response(response)
+            
+            if not documents:  # No more documents
+                break
+                
             all_documents.extend(documents)
-
-            # if len(documents) < limit:
-            #     break
-            # offset += limit
-
+            
+            # If we got fewer documents than limit, we've reached the end
+            if len(documents) < limit:
+                break
+                
+            offset += limit
+        
+        # Debug print
+        print(f"Loaded {len(all_documents)} documents from Appwrite")
         return all_documents
-
+        
     except AppwriteException as e:
-        # Show error in UI instead of silently returning []
+        print(f"Appwrite load error: {e}")
         import streamlit as st
-        st.error(f"Database error: {e.message} (Code: {e.code})")
+        st.error(f"Database error: {e.message if hasattr(e, 'message') else str(e)}")
         return []
-
+    except Exception as e:
+        print(f"Unexpected error in load_results: {e}")
+        return []
+        
 # def load_results():
 #     try:
 #         all_documents = []
