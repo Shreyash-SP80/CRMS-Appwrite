@@ -275,7 +275,7 @@ def show_main_app():
             except Exception as e:
                 st.error(f"Connection error: {e}")
     
-        choice = st.sidebar.selectbox("Menu", menu)
+    choice = st.sidebar.selectbox("Menu", menu)
 
     try:
         if choice == "Home":
