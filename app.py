@@ -261,19 +261,7 @@ def show_main_app():
             "Excel Report"
         ]
 
-    if st.session_state.get("role") == "Admin":
-        if st.button("🔍 Debug Connection"):
-            from appwrite_helper import databases, DB_ID, RESULTS_COLLECTION
-            from appwrite.query import Query
-            try:
-                r = databases.list_documents(
-                    database_id=DB_ID,
-                    collection_id=RESULTS_COLLECTION,
-                    queries=[Query.limit(1)]
-                )
-                st.success(f"Connected! Total docs: {r['total'] if isinstance(r, dict) else r.total}")
-            except Exception as e:
-                st.error(f"Connection error: {e}")
+    
     
     choice = st.sidebar.selectbox("Menu", menu)
 
@@ -281,7 +269,21 @@ def show_main_app():
         if choice == "Home":
             show_home_page()
         elif choice == "Dashboard":
-            dashboard_page()
+            if st.session_state.get("role") == "Admin":
+                if st.button("🔍 Debug Connection"):
+                    from appwrite_helper import databases, DB_ID, RESULTS_COLLECTION
+                    from appwrite.query import Query
+                    try:
+                        r = databases.list_documents(
+                            database_id=DB_ID,
+                            collection_id=RESULTS_COLLECTION,
+                            queries=[Query.limit(1)]
+                        )
+                        st.success(f"Connected! Total docs: {r['total'] if isinstance(r, dict) else r.total}")
+                        dashboard_page()
+                    except Exception as e:
+                        st.error(f"Connection error: {e}")
+            # dashboard_page()
         elif choice == "Upload PDF":
             upload_pdf_page()
         elif choice == "Top Students":
