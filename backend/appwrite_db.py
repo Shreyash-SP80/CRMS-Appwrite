@@ -18,6 +18,7 @@ import streamlit as st
 APPWRITE_ENDPOINT = st.secrets["APPWRITE_ENDPOINT"]
 APPWRITE_PROJECT_ID = st.secrets["APPWRITE_PROJECT_ID"]
 APPWRITE_API_KEY = st.secrets["APPWRITE_API_KEY"]
+DB_ID = st.secrets["DATABASE_ID"]
 
 # APPWRITE_ENDPOINT = os.getenv("APPWRITE_ENDPOINT")
 # APPWRITE_PROJECT_ID = os.getenv("APPWRITE_PROJECT_ID")
@@ -36,7 +37,7 @@ account = Account(client)
 databases = Databases(client)
 
 # ------------------ CONFIG ------------------
-DB_ID = "6956b49b002ccad37ae6"
+# DB_ID = "6956b49b002ccad37ae6"
 
 USERS_COLLECTION = "users"
 RESULTS_COLLECTION = "results"
