@@ -261,7 +261,21 @@ def show_main_app():
             "Excel Report"
         ]
 
-    choice = st.sidebar.selectbox("Menu", menu)
+    if st.session_state.get("role") == "Admin":
+        if st.button("🔍 Debug Connection"):
+            from appwrite_helper import databases, DB_ID, RESULTS_COLLECTION
+            from appwrite.query import Query
+            try:
+                r = databases.list_documents(
+                    database_id=DB_ID,
+                    collection_id=RESULTS_COLLECTION,
+                    queries=[Query.limit(1)]
+                )
+                st.success(f"Connected! Total docs: {r['total'] if isinstance(r, dict) else r.total}")
+            except Exception as e:
+                st.error(f"Connection error: {e}")
+    
+        choice = st.sidebar.selectbox("Menu", menu)
 
     try:
         if choice == "Home":
