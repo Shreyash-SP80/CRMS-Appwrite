@@ -11,11 +11,17 @@ from appwrite.exception import AppwriteException
 from appwrite.id import ID
 
 # ------------------ LOAD ENV ------------------
-load_dotenv()
+# load_dotenv()
 
-APPWRITE_ENDPOINT = os.getenv("APPWRITE_ENDPOINT")
-APPWRITE_PROJECT_ID = os.getenv("APPWRITE_PROJECT_ID")
-APPWRITE_API_KEY = os.getenv("APPWRITE_API_KEY")
+import streamlit as st
+
+APPWRITE_ENDPOINT = st.secrets["APPWRITE_ENDPOINT"]
+APPWRITE_PROJECT_ID = st.secrets["APPWRITE_PROJECT_ID"]
+APPWRITE_API_KEY = st.secrets["APPWRITE_API_KEY"]
+
+# APPWRITE_ENDPOINT = os.getenv("APPWRITE_ENDPOINT")
+# APPWRITE_PROJECT_ID = os.getenv("APPWRITE_PROJECT_ID")
+# APPWRITE_API_KEY = os.getenv("APPWRITE_API_KEY")
 
 if not APPWRITE_ENDPOINT or not APPWRITE_PROJECT_ID or not APPWRITE_API_KEY:
     raise RuntimeError("Missing Appwrite environment variables")
