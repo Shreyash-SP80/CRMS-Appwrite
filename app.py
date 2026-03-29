@@ -280,10 +280,9 @@ def show_main_app():
                             queries=[Query.limit(1)]
                         )
                         st.success(f"Connected! Total docs: {r['total'] if isinstance(r, dict) else r.total}")
-                        dashboard_page()
                     except Exception as e:
                         st.error(f"Connection error: {e}")
-            # dashboard_page()
+            dashboard_page()
         elif choice == "Upload PDF":
             upload_pdf_page()
         elif choice == "Top Students":
