@@ -3,7 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import gaussian_kde
-from backend.appwrite_db import get_short_results, get_detailed_results
+# from backend.appwrite_db import get_short_results, get_detailed_results, debug_appwrite_connection
+from backend.appwrite_db import (
+    get_short_results, 
+    get_detailed_results, 
+    data_exists,
+    debug_appwrite_connection,
+    load_results
+)
 
 
 # ✅ Appwrite backend import (MongoDB removed)
@@ -105,6 +112,53 @@ def show():
 
     if "filtered_dashboard_data" not in st.session_state:
         st.session_state.filtered_dashboard_data = []
+
+    with st.expander("🔧 Debug Information", expanded=False):
+        if st.button("Test Appwrite Connection"):
+            with st.spinner("Testing connection..."):
+                try:
+                    # Import the function
+                    from backend.appwrite_db import databases, DB_ID, RESULTS_COLLECTION
+                    from appwrite.query import Query
+                    
+                    # Try to list documents
+                    st.write("Attempting to connect to Appwrite...")
+                    response = databases.list_documents(
+                        database_id=DB_ID,
+                        collection_id=RESULTS_COLLECTION,
+                        queries=[Query.limit(5)]
+                    )
+                    
+                    # Check response type
+                    st.write(f"Response type: {type(response)}")
+                    
+                    if isinstance(response, dict):
+                        total = response.get("total", 0)
+                        documents = response.get("documents", [])
+                    else:
+                        total = response.total
+                        documents = response.documents
+                    
+                    st.success(f"✅ Connected successfully!")
+                    st.write(f"Total documents in collection: {total}")
+                    st.write(f"Retrieved {len(documents)} documents")
+                    
+                    if documents:
+                        st.write("First document keys:")
+                        first_doc = documents[0]
+                        if isinstance(first_doc, dict):
+                            st.json({k: str(v)[:100] for k, v in first_doc.items() if not k.startswith('$')})
+                        else:
+                            doc_dict = {attr: getattr(first_doc, attr) for attr in dir(first_doc) 
+                                      if not attr.startswith('_') and not attr.startswith('$')}
+                            st.json({k: str(v)[:100] for k, v in doc_dict.items()})
+                    else:
+                        st.warning("⚠️ No documents found in the results collection!")
+                        st.info("Make sure you have uploaded results data using the Upload PDF page.")
+                        
+                except Exception as e:
+                    st.error(f"❌ Connection error: {e}")
+                    st.code(str(e))
 
     # ---------------------------
     # INPUTS (WITH KEYS)
